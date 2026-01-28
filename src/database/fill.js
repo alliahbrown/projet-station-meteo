@@ -1,14 +1,17 @@
+// import ? 
+
+import * as conn from "./connexion.js"
+
 // the document to fill the database
 
-const { MongoClient } = require('mongodb');
+
 const fs = require('fs');
-const path = require('path');
+
+
 
 // configuration
 
-const MONGO_URL = 'mongodb://localhost:27017';
-const DB_NAME = 'meteo_db';
-const COLLECTION_NAME = 'meteo_data';
+
 const FAKESONDE_FILE = '/dev/shm/sensors';
 
 
@@ -16,19 +19,7 @@ let client;
 let collection;
 
 
-async function init() {
-  /* 
-  Initialisation connection database
-  */
 
-  client = new MongoClient(MONGO_URL);
-  await client.connect();
-  console.log('connection à MongoDB réussie');
-  console.log('database :', DB_NAME, '; collection :', COLLECTION_NAME);
-  
-  const db = client.db(DB_NAME);
-  collection = db.collection(COLLECTION_NAME);
-}
 
 async function insertData(filename) {
     /* insertion des données dans la base de données */
@@ -48,7 +39,7 @@ async function insertData(filename) {
 
 async function watchFile(filename) {
   /* surveillance du fichier en entrée */
-  await init();
+  await conn.init();
   
     console.log(`surveillance du fichier: ${filename}`);
   
