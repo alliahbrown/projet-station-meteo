@@ -33,7 +33,6 @@ async function init() {
 
 
 
-
 async function insertData(filename) {
     /* insertion des données dans la base de données */
 
