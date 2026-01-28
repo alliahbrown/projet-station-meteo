@@ -27,8 +27,14 @@ executer mongoshell
 docker exec -ti mongotsi mongosh
 
 https://buzut.net/commandes-de-base-de-mongodb/
+```
 
+Trouver un élément dans la base de données
+```
 db.meteo_data.findOne({_id: ObjectId('697a34f7f2cb59f5ef320db0')})
+```
 
-
+Effacer les éléments de la base de données :
+```
+db.meteo_data.deleteMany({})
 ```

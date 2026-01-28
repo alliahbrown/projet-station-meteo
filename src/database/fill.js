@@ -30,9 +30,6 @@ async function init() {
   collection = db.collection(COLLECTION_NAME);
 }
 
-
-
-
 async function insertData(filename) {
     /* insertion des données dans la base de données */
 
