@@ -1,29 +1,16 @@
 {
   "name": "projet-station-meteo",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/alliahbrown/projet-station-meteo.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/alliahbrown/projet-station-meteo/issues"
-  },
-  "homepage": "https://github.com/alliahbrown/projet-station-meteo#readme",
   "dependencies": {
-    "express": "^5.2.1",
-    "influx": "^5.12.0",
-    "mongodb": "^7.0.0",
-    "ws": "^8.19.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.11"
-  },
-  "keywords": [],
-  "description": ""
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.22.1",
+    "http-errors": "~1.6.3",
+    "jade": "^0.29.0",
+    "morgan": "^1.10.1"
+  }
 }
