@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  mongo:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGODB_DB: ${MONGODB_DB}
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - mongo-data:/data/db  
+volumes:
+  mongo-data:
