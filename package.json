@@ -11,8 +11,14 @@
     "debug": "~2.6.9",
     "express": "^4.22.1",
     "http-errors": "~1.6.3",
+    "influx": "^5.12.0",
     "jade": "^0.29.0",
-    "mongodb": "^7.0.0",
-    "morgan": "^1.10.1"
+    "mongodb": "^7.1.0",
+    "morgan": "^1.10.1",
+    "type": "module",
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

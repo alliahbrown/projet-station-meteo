@@ -1,6 +1,6 @@
 // the document to fill the database
-const { MongoClient } = require('mongodb');
-
+// const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 // configuration
 
@@ -29,3 +29,5 @@ async function init() {
 }
 
 init();
+
+export { collection, init };
