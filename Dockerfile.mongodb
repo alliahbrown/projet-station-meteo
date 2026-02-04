@@ -1,9 +1,1 @@
-# dockerfile
 FROM mongo:latest
-
-# copier le script d'initialisation
-COPY init.sh /docker-entrypoint-initdb.d/init.sh
-
-# s'assurer que le script est exécutable
-RUN chmod +x /docker-entrypoint-initdb.d/init.sh
-

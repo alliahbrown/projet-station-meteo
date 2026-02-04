@@ -9,13 +9,22 @@ import { MongoClient } from 'mongodb';
 // const COLLECTION_NAME = 'meteo_data';
 
 
-const MONGO_USER = process.env.MONGODB_USER
-const MONGO_PASSWORD = process.env.MONGODB_PASSWORD
-const MONGO_HOST = process.env.MONGO_HOST 
-const DB_NAME = process.env.MONGODB_DB
+// const MONGO_USER = process.env.MONGODB_USER
+// const MONGO_PASSWORD = process.env.MONGODB_PASSWORD
+// const MONGO_HOST = process.env.MONGO_HOST 
+// const DB_NAME = process.env.MONGODB_DB
 
-const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${DB_NAME}?authSource=${DB_NAME}`;
+// const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${DB_NAME}?authSource=${DB_NAME}`;
 
+
+
+const MONGO_USER = process.env.MONGO_USER || 'admin';
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD || 'password123';
+const MONGO_HOST = process.env.MONGO_HOST || 'mongodb';
+const MONGO_PORT = process.env.MONGO_PORT || '27017';
+const DB_NAME = process.env.DB_NAME || 'meteo';
+
+const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${DB_NAME}?authSource=admin`;
 
 let client;
 let collection;

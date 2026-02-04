@@ -1,0 +1,7 @@
+FROM node:18
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY src/database/connexion.js src/database/
+COPY src/database/fill.js src/database/
+CMD ["node", "src/database/fill.js"]

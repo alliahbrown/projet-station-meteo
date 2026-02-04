@@ -1,19 +1,35 @@
-version: '3.7'
-
+version: '3.8'
 services:
-  mongo:
+  mongodb:
     build:
       context: .
       dockerfile: Dockerfile.mongodb
-    restart: always
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGODB_DB: ${MONGODB_DB}
-      MONGODB_USER: ${MONGODB_USER}
-      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
     volumes:
-      - mongo-data:/data/db  
+      - mongo-data:/data/db
+
+  scrapper:
+    build:
+      context: .
+      dockerfile: Dockerfile.scrapper
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    depends_on:
+      - mongodb
+    ports:
+      - "${API_PORT}:3000"
+    env_file:
+      - .env
+
 volumes:
   mongo-data:
