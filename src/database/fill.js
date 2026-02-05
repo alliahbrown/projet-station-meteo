@@ -167,20 +167,20 @@ async function startWatching() {
       }
     });
   } else {
-    console.log(` Fichier ${FAKESONDE_FILE} introuvable`);
+    console.log(` fichier ${FAKESONDE_FILE} introuvable`);
   }
   
   // Surveiller rain (compteur d'événements)
   if (fs.existsSync(RAIN_FILE)) {
-    console.log(`🌧️  Surveillance pluie: ${RAIN_FILE}`);
+    console.log(`Surveillance pluie: ${RAIN_FILE}`);
     fs.watch(RAIN_FILE, { persistent: true }, (eventType) => {
       if (eventType === 'change') {
         rainCount++;
-        console.log(` Pluie détectée! Total: ${(rainCount * 10.2794).toFixed(2)} mm`);
+        console.log(` pluie détectée! total: ${(rainCount * 10.2794).toFixed(2)} mm`);
       }
     });
   } else {
-    console.log(` Fichier pluie ${RAIN_FILE} introuvable`);
+    console.log(` fichier pluie ${RAIN_FILE} introuvable`);
   }
   
   // Insertion initiale

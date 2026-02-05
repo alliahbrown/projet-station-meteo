@@ -7,7 +7,16 @@ const PORT = process.env.API_PORT || 3000;
 
 app.use(express.json());
 
-// Route racine
+var cors = require('cors')
+
+app.use(cors({
+origin: '*',
+credentials: true,
+methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+
 app.get('/', (req, res) => {
   res.json({ 
     message: 'API Météo',
@@ -18,10 +27,9 @@ app.get('/', (req, res) => {
   });
 });
 
-// Routes météo
 app.use('/meteo', meteoRoutes);
 
-// Démarrage du serveur
+
 async function startServer() {
   try {
     const db = await connect();
