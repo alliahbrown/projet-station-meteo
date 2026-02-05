@@ -1,71 +1,4 @@
-// // // import ? 
-
-// // import * as conn from "./connexion.js"
-// import { init, collection } from "./connexion.js";
-// import fs from 'fs';
-// // // the document to fill the database
-
-// // import fs from 'fs';
-
-
-// // // configuration
-
-
-// const FAKESONDE_FILE = '/dev/shm/sensors';
-
-
-// let client;
-// let collection;
-
-
-
-
-// async function insertData(filename) {
-//     /* insertion des données dans la base de données */
-
-//   try {
-//     const fileContent = fs.readFileSync(filename, 'utf8');
-//     const weatherData = JSON.parse(fileContent);
-//     weatherData.insertedAt = new Date();
-    
-//     const result = await collection.insertOne(weatherData);
-//     console.log(`[${new Date().toLocaleTimeString()}] Données insérées: ${result.insertedId}`);
-    
-//   } catch (error) {
-//     console.error('error', error.message);
-//   }
-// }
-
-// async function watchFile(filename) {
-//   /* surveillance du fichier en entrée */
-//   await conn.init();
-  
-//     console.log(`surveillance du fichier: ${filename}`);
-  
-//   // Surveiller les changements du fichier
-//   fs.watch(filename, async (eventType) => {
-//     if (eventType === 'change') {
-//       await insertData(filename);
-//     }
-//   });
-  
-//   // Gestion de l'arrêt propre
-//   process.on('SIGINT', async () => {
-//     await client.close();
-//     console.log('\n arrêt');
-//     process.exit(0);
-//   });
-// }
-
-// watchFile(FAKESONDE_FILE);
-
-
-// function cleanDb(){
-//     // TODO
-// };
-
-import * as conn from "./connexion.js";
-import { init, collection } from "./connexion.js";
+import { connect } from './connexion.js';
 import fs from 'fs';
 
 const FAKESONDE_FILE = '/dev/shm/sensors';
@@ -76,17 +9,46 @@ async function insertData(filename) {
     const weatherData = JSON.parse(fileContent);
     weatherData.insertedAt = new Date();
     
+    const db = await connect();
+    const collection = db.collection('meteo');
     const result = await collection.insertOne(weatherData);
+    
     console.log(`[${new Date().toLocaleTimeString()}] Données insérées: ${result.insertedId}`);
   } catch (error) {
-    console.error('error', error.message);
+    console.error('Erreur insertion:', error.message);
   }
 }
 
 async function watchFile(filename) {
-  await init();
-  console.log(`surveillance du fichier: ${filename}`);
+  await connect();
+  console.log(`Surveillance du fichier: ${filename}`);
   
+  // Vérifier si le fichier existe
+  if (!fs.existsSync(filename)) {
+    console.log(`  Fichier ${filename} introuvable, mode simulation activé`);
+    // Mode simulation : insérer des données toutes les 30 secondes
+    setInterval(async () => {
+      const simulatedData = {
+        temperature: 15 + Math.random() * 15,
+        humidity: 40 + Math.random() * 40,
+        pressure: 1000 + Math.random() * 50,
+        insertedAt: new Date()
+      };
+      
+      try {
+        const db = await connect();
+        const collection = db.collection('meteo');
+        await collection.insertOne(simulatedData);
+        console.log(` Données simulées insérées: ${JSON.stringify(simulatedData)}`);
+      } catch (error) {
+        console.error('Erreur:', error.message);
+      }
+    }, 30000);
+    
+    return;
+  }
+  
+  // Mode normal : surveiller le fichier
   fs.watch(filename, async (eventType) => {
     if (eventType === 'change') {
       await insertData(filename);
@@ -94,8 +56,7 @@ async function watchFile(filename) {
   });
   
   process.on('SIGINT', async () => {
-    // await close();
-    console.log('\n arrêt');
+    console.log('\n Arrêt du scrapper');
     process.exit(0);
   });
 }

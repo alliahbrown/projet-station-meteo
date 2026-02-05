@@ -1,11 +1,10 @@
 version: '3.8'
 services:
   mongodb:
-    build:
-      context: .
-      dockerfile: Dockerfile.mongodb
-    env_file:
-      - .env
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
     ports:
       - "27017:27017"
     volumes:
@@ -17,8 +16,15 @@ services:
       dockerfile: Dockerfile.scrapper
     depends_on:
       - mongodb
-    env_file:
-      - .env
+    environment:
+      - MONGO_USER=admin
+      - MONGO_PASSWORD=password123
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - DB_NAME=meteo
+    volumes:
+      - /dev/shm:/dev/shm  # ← Partage /dev/shm avec l'hôte
+    restart: on-failure
 
   api:
     build:
@@ -27,9 +33,53 @@ services:
     depends_on:
       - mongodb
     ports:
-      - "${API_PORT}:3000"
-    env_file:
-      - .env
+      - "3000:3000"
+    environment:
+      - MONGO_USER=admin
+      - MONGO_PASSWORD=password123
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - DB_NAME=meteo
+    restart: on-failure
 
 volumes:
   mongo-data:
+
+
+
+
+# version: '3.8'
+# services:
+#   mongodb:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.mongodb
+#     env_file:
+#       - .env
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo-data:/data/db
+
+#   scrapper:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.scrapper
+#     depends_on:
+#       - mongodb
+#     env_file:
+#       - .env
+
+#   api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.api
+#     depends_on:
+#       - mongodb
+#     ports:
+#       - 3000:3000
+#     env_file:
+#       - .env
+
+# volumes:
+#   mongo-data:

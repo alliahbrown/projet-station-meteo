@@ -1,22 +1,4 @@
-// the document to fill the database
-// const { MongoClient } = require('mongodb');
 import { MongoClient } from 'mongodb';
-
-// configuration
-
-// const MONGO_URL = 'mongodb://localhost:27017';
-// const DB_NAME = 'meteo_db';
-// const COLLECTION_NAME = 'meteo_data';
-
-
-// const MONGO_USER = process.env.MONGODB_USER
-// const MONGO_PASSWORD = process.env.MONGODB_PASSWORD
-// const MONGO_HOST = process.env.MONGO_HOST 
-// const DB_NAME = process.env.MONGODB_DB
-
-// const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${DB_NAME}?authSource=${DB_NAME}`;
-
-
 
 const MONGO_USER = process.env.MONGO_USER || 'admin';
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD || 'password123';
@@ -24,36 +6,32 @@ const MONGO_HOST = process.env.MONGO_HOST || 'mongodb';
 const MONGO_PORT = process.env.MONGO_PORT || '27017';
 const DB_NAME = process.env.DB_NAME || 'meteo';
 
-const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${DB_NAME}?authSource=admin`;
+const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/?authSource=admin`;
 
 let client;
-let collection;
+let db;
 
-
-async function init() {
-  /* 
-  Initialisation connection database
-  */
-
-  client = new MongoClient(MONGO_URL);
-  await client.connect();
-  console.log('connection à MongoDB réussie');
-  console.log('database :', DB_NAME, '; collection :', COLLECTION_NAME);
+export async function connect() {
+  if (db) return db;
   
-  const db = client.db(DB_NAME);
-  collection = db.collection(COLLECTION_NAME);
-}
-
-
-async function close() {
-
-  /* fermeture de la connexion */
-  if (client) {
-    await client.close();
-    console.log(' connexion MongoDB fermée');
+  try {
+    client = new MongoClient(MONGO_URL);
+    await client.connect();
+    console.log('Connecté à MongoDB');
+    db = client.db(DB_NAME);
+    return db;
+  } catch (error) {
+    console.error('Erreur de connexion MongoDB:', error);
+    throw error;
   }
 }
 
-init();
+export async function close() {
+  if (client) {
+    await client.close();
+  }
+}
 
-export { collection, init, close };
+connect();
+
+export default { connect, close };
