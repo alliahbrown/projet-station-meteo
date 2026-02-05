@@ -26,24 +26,7 @@ async function watchFile(filename) {
   // Vérifier si le fichier existe
   if (!fs.existsSync(filename)) {
     console.log(`  Fichier ${filename} introuvable, mode simulation activé`);
-    // Mode simulation : insérer des données toutes les 30 secondes
-    setInterval(async () => {
-      const simulatedData = {
-        temperature: 15 + Math.random() * 15,
-        humidity: 40 + Math.random() * 40,
-        pressure: 1000 + Math.random() * 50,
-        insertedAt: new Date()
-      };
-      
-      try {
-        const db = await connect();
-        const collection = db.collection('meteo');
-        await collection.insertOne(simulatedData);
-        console.log(` Données simulées insérées: ${JSON.stringify(simulatedData)}`);
-      } catch (error) {
-        console.error('Erreur:', error.message);
-      }
-    }, 30000);
+  
     
     return;
   }

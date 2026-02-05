@@ -23,7 +23,7 @@ services:
       - MONGO_PORT=27017
       - DB_NAME=meteo
     volumes:
-      - /dev/shm:/dev/shm  # ← Partage /dev/shm avec l'hôte
+      - /dev/shm:/dev/shm  # ← partage /dev/shm avec l'hôte
     restart: on-failure
 
   api:
@@ -45,41 +45,3 @@ services:
 volumes:
   mongo-data:
 
-
-
-
-# version: '3.8'
-# services:
-#   mongodb:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile.mongodb
-#     env_file:
-#       - .env
-#     ports:
-#       - "27017:27017"
-#     volumes:
-#       - mongo-data:/data/db
-
-#   scrapper:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile.scrapper
-#     depends_on:
-#       - mongodb
-#     env_file:
-#       - .env
-
-#   api:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile.api
-#     depends_on:
-#       - mongodb
-#     ports:
-#       - 3000:3000
-#     env_file:
-#       - .env
-
-# volumes:
-#   mongo-data:
