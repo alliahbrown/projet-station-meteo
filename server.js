@@ -1,18 +1,17 @@
 import express from 'express';
+import cors from 'cors';
 import { connect } from './src/database/connexion.js';
 import meteoRoutes from './src/routes/meteo.js';
 
 const app = express();
 const PORT = process.env.API_PORT || 3000;
-var cors = require('cors')
 
 app.use(cors({
-origin: '*',
-credentials: false,
-methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-allowedHeaders: ['Content-Type', 'Authorization']
+  origin: '*',
+  credentials: false,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
 app.use(express.json());
 
 
