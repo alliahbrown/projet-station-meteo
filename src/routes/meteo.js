@@ -24,7 +24,7 @@ router.get('/v1/live', async (req, res) => {
     
     const collection = db.collection('meteo');
     
-    // CORRECTION: Trier par insertedAt au lieu de date
+    //Trier par insertedAt au lieu de date
     const latestData = await collection.findOne(
       {}, 
       { sort: { insertedAt: -1 } }
