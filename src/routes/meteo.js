@@ -119,11 +119,11 @@ router.get('/v1/archive', async (req, res) => {
     
     const collection = db.collection('meteo');
     
-    // CORRECTION: Convertir les timestamps en dates
+    // Convertir les timestamps en dates
     const startDate = new Date(start * 1000);
     const endDate = new Date(end * 1000);
     
-    // CORRECTION: Utiliser insertedAt au lieu de date
+    // Utiliser insertedAt au lieu de date
     const data = await collection.find({
       insertedAt: { 
         $gte: startDate, 
