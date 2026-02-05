@@ -1,13 +1,27 @@
 import express from 'express';
 import { connect } from './src/database/connexion.js';
+import meteoRoutes from './src/routes/meteo.js';
 
 const app = express();
 const PORT = process.env.API_PORT || 3000;
 
 app.use(express.json());
 
+// Route racine
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'API Météo',
+    endpoints: [
+      'GET /meteo/v1/live',
+      'GET /meteo/v1/archive'
+    ]
+  });
+});
 
-// Démarrer le serveur
+// Routes météo
+app.use('/meteo', meteoRoutes);
+
+// Démarrage du serveur
 async function startServer() {
   try {
     await connect();
