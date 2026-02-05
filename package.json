@@ -1,9 +1,11 @@
 {
   "name": "projet-station-meteo",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js",
+    "scrapper": "node src/database/fill.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -15,8 +17,9 @@
     "jade": "^0.29.0",
     "mongodb": "^7.1.0",
     "morgan": "^1.10.1",
-    "type": "module",
-    "ws": "^8.19.0"
+    "ws": "^8.19.0",
+    "swagger-ui-express": "^5.0.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

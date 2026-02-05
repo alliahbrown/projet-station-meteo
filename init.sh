@@ -1,14 +1,6 @@
-# init.sh
-set -e
+#!/bin/bash
+# Charger les variables d'environnement
+export $(cat .env | xargs)
 
-mongosh <<EOF
-use admin
-db.createUser({
-  user: '$MONGODB_USER',
-  pwd:  '$MONGODB_PASSWORD',
-  roles: [{
-    role: 'readWrite',
-    db: '$MONGODB_DB'
-  }]
-})
-EOF
+# Lancer docker-compose
+docker-compose up --build
