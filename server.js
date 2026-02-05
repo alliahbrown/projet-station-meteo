@@ -24,7 +24,8 @@ app.use('/meteo', meteoRoutes);
 // Démarrage du serveur
 async function startServer() {
   try {
-    await connect();
+    const db = await connect();
+    app.locals.db = db;
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`API démarrée sur http://0.0.0.0:${PORT}`);
     });
