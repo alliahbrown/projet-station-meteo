@@ -2,8 +2,8 @@
 Description= projet station meteo
 
 [Service]
-WorkingDirectory=/opt/meteoapi
-ExecStart= /urs/bin/docker compose up 
+WorkingDirectory=/home/pi/projet-station-meteo
+ExecStart= /usr/bin/docker compose up 
 
 [Install]
 WantedBy=multi-user.target
