@@ -4,17 +4,17 @@ import meteoRoutes from './src/routes/meteo.js';
 
 const app = express();
 const PORT = process.env.API_PORT || 3000;
-
-app.use(express.json());
-
 var cors = require('cors')
 
 app.use(cors({
 origin: '*',
-credentials: true,
+credentials: false,
 methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.use(express.json());
+
 
 
 app.get('/', (req, res) => {
